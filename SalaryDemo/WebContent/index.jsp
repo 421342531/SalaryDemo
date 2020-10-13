@@ -71,10 +71,17 @@ function sumAll(){
 			console.log(all);
 			var tr = document.createElement("tr");
 			var td1 = document.createElement("td");
+			 var echkbox=document.createElement("input");
+					echkbox.setAttribute("type","checkbox");
+					  echkbox.setAttribute("name","checkBoxList");
+					 	echkbox.setAttribute("checked","checked");
+					 		echkbox.setAttribute("value",name+"|"+price+"|"+num);
+					 	 		td1.appendChild(echkbox);
+					 	 		td1.appendChild(document.createTextNode(name)); 
 			var td2	 = document.createElement("td");
 			var td3	 = document.createElement("td");
 			var td4	 = document.createElement("td");
-			td1.innerHTML=name;//price;
+		//	td1.innerHTML=name;//产品名;
 			td2.innerHTML=price;//num;
 			td3.innerHTML=num;//all;
 			td4.innerHTML=all;
@@ -122,7 +129,7 @@ function sumAll(){
 <br>
      
  <div>选择的产品是：
-<input  id="selectProductName"
+<input  id="selectProductName" placeholder="请在上面表格中选择产品"
 		 style="width:30%;height:100px;font-size:30px;" />
 </div>
 <br>
@@ -147,7 +154,7 @@ function sumAll(){
 <br>
 
 <center>
-<table id="tableMainSum" border="1px" cellspacing="0" width="80%"  >
+<table id="tableMainSum"   border="1px" cellspacing="0" width="80%"  >
  <thread>
 	<tr id =tableThread>
 		<td >产品名</td>
@@ -162,5 +169,10 @@ function sumAll(){
 
 <div id ="suoyougongzi"></div>
 
+
+
+
 </body>
 </html>
+
+
