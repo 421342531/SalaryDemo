@@ -23,6 +23,16 @@ System.out.println("jsonObject="+jsonObject);
 <script src="js/echarts.min.js"></script>
 <script type="text/javascript">
 
+//判断是否是数字
+function Number(val) {
+　　if (parseFloat(val).toString() == "NaN") {
+　　　　
+　　　　return false;
+　　} else {
+　　　　return true;
+　　}
+}
+
 function queryProducts_xxx(){
 	console.log("start to query products");
 	$.ajax({
@@ -38,53 +48,50 @@ function selectProduct(name,price){//取得当前点击索引
 	
 	document.getElementById("selectProductName").value =name;
 	document.getElementById("inputSingle").value =price;
-	
-  //  alert('name:'+name+' price:'+price);
-    
+	document.getElementById("inputNum").value='';
 }
 
 function sumAll(){
 	var name = document.getElementById("selectProductName").value;
 	var price = document.getElementById("inputSingle").value;
 	var num = document.getElementById("inputNum").value;
+	if(!Number(num)){
+		alert('数量输入错误，请确认！');
+	}
 	
 	console.log(' post name :'+name +' price:'+price+' num:'+num);
+	
+	var all ;
 	$.ajax({
 		type:"post",
 		url:"${pageContext.request.contextPath }/ChenfaServlet",
 		data:{"price":price,'num':num }, 
 		success:function(data) {
-			console.log(data);
+			all = data;
+			console.log(all);
+			var tr = document.createElement("tr");
+			var td1 = document.createElement("td");
+			var td2	 = document.createElement("td");
+			var td3	 = document.createElement("td");
+			var td4	 = document.createElement("td");
+			td1.innerHTML=name;//price;
+			td2.innerHTML=price;//num;
+			td3.innerHTML=num;//all;
+			td4.innerHTML=all;
+			document.getElementById("tableMainSum").appendChild(tr);
+			tr.appendChild(td1);
+			tr.appendChild(td2);
+			tr.appendChild(td3);
+			tr.appendChild(td4);
 		}
 		});
-	
-	  var all = price*num;
-//	  alert('all:'+all);
-//	document.getElementById("sumAll").innerHTML =all;
-	
-	
-	
-	var tr = document.createElement("tr");
-	var td1 = document.createElement("td");
-	var td2	 = document.createElement("td");
-	var td3	 = document.createElement("td");
-	var td4	 = document.createElement("td");
-	td1.innerHTML=name;//price;
-	td2.innerHTML=price;//num;
-	td3.innerHTML=num;//all;
-	td4.innerHTML=all;
-	document.getElementById("tableMainSum").appendChild(tr);
-	tr.appendChild(td1);
-	tr.appendChild(td2);
-	tr.appendChild(td3);
-	tr.appendChild(td4);
 }
 
-
 </script>
-<div>请选择产品名：
+<div style='font-size:30px;'>请选择产品名：
 <!--show products start -->
-<table id="tableMain" border="1px" cellspacing="0" width="500px"  >
+<center>
+<table id="tableMain" border="1px" cellspacing="0" width="80%"  >
  <thread>
 	<tr id =tableThread>
 		<td >序号</td>
@@ -111,16 +118,21 @@ function sumAll(){
 </tbody>
 <%} %>
 </table>
+</center>
+<br>
+     
  <div>选择的产品是：
 <input  id="selectProductName"
 		 style="width:30%;height:100px;font-size:30px;" />
 </div>
+<br>
  
  <!-- show products end -->
 <div>单价：
 <input  placeholder="请输入单价" id="inputSingle"
 		 style="width:30%;height:100px;font-size:30px;" />
 </div>
+<br>
 		 
 <div>总件数：
 <input  placeholder="请输入总件数" id="inputNum"
@@ -129,10 +141,13 @@ function sumAll(){
 
 <br>
 <button id ="huangdanButton" type="button" onClick="sumAll()" 
-						style="width: 60%;height:100px;font-size:40px;">添加
+						style="width: 20%;height:50px;font-size:30px;">添加
 </button>
+<br>
+<br>
 
-<table id="tableMainSum" border="1px" cellspacing="0" width="500px"  >
+<center>
+<table id="tableMainSum" border="1px" cellspacing="0" width="80%"  >
  <thread>
 	<tr id =tableThread>
 		<td >产品名</td>
@@ -141,11 +156,9 @@ function sumAll(){
 		<td >总价</td>
 	</tr>
 </thread>
-
-
 </table>
+</center>
 <br>
-
 
 <div id ="suoyougongzi"></div>
 

@@ -45,8 +45,8 @@ public class ChenfaServlet extends HttpServlet {
 		ServletContext sc = getServletContext();  
 		RequestDispatcher rd = null;   
 		response.setCharacterEncoding("utf-8");
-			String price = (String)request.getAttribute("price");
-			String num = (String)request.getAttribute("num");
+			String price = (String)request.getParameter("price");
+			String num = (String)request.getParameter("num");
 			System.out.println("price: "+price+" num:"+num);
 			logger.info("price: "+price+" num:"+num);
 			ChenfaUtil.chenFaFunc(price,num);
