@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -20,25 +22,27 @@ public class QueryProductsUtil {
 	
 	
 public static JSONObject queryProductsFunc() throws ClassNotFoundException, SQLException {
+	JSONObject jsonObject = new JSONObject(true);
+	//---
+	Class.forName("com.mysql.cj.jdbc.Driver");
+ 	System.out.println("Success loading Mysql Driver!");
+	Connection connect = DriverManager.getConnection(
+			 "jdbc:mysql://localhost:3306/mysql","root","nbcb,111");
+	Map<String ,String >  map =new HashMap<>();
+	String sql_queryStartTime =
+ 			"select product_name ,product_price from salary_products_info order by product_name";
+	PreparedStatement pstmt = null;
+	pstmt = connect.prepareStatement(sql_queryStartTime);
+	ResultSet rs ;
+	rs = pstmt.executeQuery(); 
+	while(rs.next()) {
+		String product_name = rs.getString("product_name");
+		String product_price = rs.getString("product_price"); 
 		
-	
-		JSONObject jsonObject = new JSONObject(true);
-		
-			String name = "剃须刀001";
-			String price = "0.4";
-			jsonObject.put(name, price);
-			
-			String name1 = "剃须刀002";
-			String price1 = "0.5";
-			jsonObject.put(name1, price1);
-			
-			String name2 = "剃须刀003";
-			String price2 = "1.0";
-			jsonObject.put(name2, price2);
-			
-			System.out.println("result:"+jsonObject);
-		return jsonObject;
-		
+		System.out.println("sql:"+product_name+" "+product_price);
+		jsonObject.put(product_name, product_price);
+	}
+	return jsonObject;
 	}
 	
 public static JSONObject showLogFunc_bak() throws ClassNotFoundException, SQLException {
